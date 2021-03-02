@@ -5,17 +5,13 @@ import Form from "./copmonents/Form/Form";
 import Phonebook from "./copmonents/Phonebook/Phonebook";
 import Filter from "./copmonents/Filter/Filter";
 import fadeStyle from "./copmonents/fade/fade.module.css";
+import Logo from "./copmonents/Logo/Logo";
 
 var ids = require("short-id");
 
 class App extends React.Component {
   state = {
-    contacts: [
-      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-    ],
+    contacts: [],
     doubleContact: false,
     filter: "",
   };
@@ -61,12 +57,13 @@ class App extends React.Component {
     );
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const contacts = localStorage.getItem("contacts");
     const parseContacts = JSON.parse(contacts);
-
+    console.log(parseContacts);
+    console.log(localStorage);
     if (parseContacts) {
-      this.setState({ contacts: parseContacts });
+      await this.setState({ contacts: parseContacts });
     }
   }
 
@@ -89,15 +86,7 @@ class App extends React.Component {
         >
           <div className={s.alert}>Такой контакт уже существует!</div>
         </CSSTransition>
-        <CSSTransition
-          in={true}
-          appear={true}
-          classNames={fadeStyle}
-          timeout={500}
-          unmountOnExit
-        >
-          <h2 className={s.title}>Phonebook</h2>
-        </CSSTransition>
+        <Logo />
         <Form onSubmit={this.formSubmitHandler} />
         <h2 className={s.title}>Contacts</h2>
         <CSSTransition
@@ -108,6 +97,7 @@ class App extends React.Component {
         >
           <Filter value={filter} onChange={this.changeFilter} />
         </CSSTransition>
+
         <Phonebook
           contacts={visibleContact}
           onDeleteContact={this.deleteContact}

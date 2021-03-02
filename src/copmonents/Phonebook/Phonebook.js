@@ -1,7 +1,9 @@
 import React from "react";
 import s from "./Phonebook.module.css";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import fadeStyles from "../fade/fade.module.css";
+import fadeStyles from "./fadePhonebook.module.css";
+
+
 
 function Phonebook({ contacts, onDeleteContact }) {
   return (
